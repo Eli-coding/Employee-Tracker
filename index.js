@@ -66,11 +66,11 @@ function menuQuestions() {
 
 
 function view_all_departments (){
- co
+ console.log("hi from all dept");
 };
 
 function view_all_roles(){
-    
+  console.log("hi from all roles");  
 };
 
 function add_a_department(){
