@@ -7,32 +7,7 @@ function menuQuestions() {
         type: "expand",
         name: "startQuestion",
         message: "What would you like to do?",
-        choices: [
-          {
-            name: "view_all_departments",
-            value: "view_all_departments",
-          },
-          {
-            name: "view_all_roles",
-            value: "view_all_roles",
-          },
-          {
-            name: "add a department",
-            value: "add_a_department",
-          },
-          {
-            name: "add a role",
-            value: "add_a_role",
-          },
-          {
-            name: "add an employee",
-            value: "add_an_employee",
-          },
-          {
-            name: "update an employee role",
-            value: "update_an_employee_role",
-          },
-        ],
+        choices: [ "view_all_departments", "view_all_roles", "add_a_department","add a role","add_an_employee","update_an_employee_role"],
       },
     ])
     .then((option) => {
