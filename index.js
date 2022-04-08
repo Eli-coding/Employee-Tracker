@@ -10,8 +10,8 @@ function menuQuestions() {
         choices: [ "view_all_departments", "view_all_roles", "add_a_department","add a role","add_an_employee","update_an_employee_role"],
       },
     ])
-    .then((choices) => {
-      switch (choices) {
+    .then((results) => {
+      switch (results.choices) {
         case "view_all_departments":
           view_all_departments();
           break;
