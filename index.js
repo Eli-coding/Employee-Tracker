@@ -11,7 +11,7 @@ function menuQuestions() {
       },
     ])
     .then((results) => {
-      switch (results.choices) {
+      switch (results.startQuestion) {
         case "view_all_departments":
           view_all_departments();
           break;
