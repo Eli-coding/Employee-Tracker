@@ -9,82 +9,83 @@ function menuQuestions() {
         message: "What would you like to do?",
         choices: [
           {
-            key: "a",
+            name: "view_all_departments",
             value: "view_all_departments",
           },
           {
-            key: "b",
+            name: "view_all_roles",
             value: "view_all_roles",
           },
           {
-            key: "c",
+            name: "add a department",
             value: "add_a_department",
           },
           {
-            key: "d",
-            value: "add a role",
+            name: "add a role",
+            value: "add_a_role",
           },
           {
-            key: "e",
-            value: "add an employee",
+            name: "add an employee",
+            value: "add_an_employee",
           },
           {
-            key: "f",
-            value: "update an employee role",
+            name: "update an employee role",
+            value: "update_an_employee_role",
           },
         ],
       },
     ])
     .then((option) => {
       switch (option) {
-        case "view all departments":
+        case "view_all_departments":
           view_all_departments();
           break;
-        case "view all roles":
+        case "view_all_roles":
           view_all_roles();
           break;
-        case "add a department":
+        case "add_a_department":
           add_a_department();
           break;
 
-        case "add a role":
-            add_a_role();
-            break;
-        case "add an employee":
-            add_an_employee();
-            break;
+        case "add_a_role":
+          add_a_role();
+          break;
+        case "add_an_employee":
+          add_an_employee();
+          break;
 
-        case "update an employee role":
-            update_an_employee_role();
-            break;
-            
+        case "update_an_employee_role":
+          update_an_employee_role();
+          break;
+
         default:
           break;
       }
     });
 }
 
+menuQuestions();
 
-function view_all_departments (){
- console.log("hi from all dept");
-};
+function view_all_departments() {
+  console.log("hi from all dept");
+}
 
-function view_all_roles(){
-  console.log("hi from all roles");  
-};
+function view_all_roles() {
+  console.log("hi from all roles");
+}
 
-function add_a_department(){
+function add_a_department() {
+    console.log("hi from add dept");
+}
 
-};
+function add_a_role() {
+    console.log("hi from add a role");
+}
 
-function add_a_role(){
+function add_an_employee() {
+    console.log("hi from add an employee");
+}
 
-};
-
-function add_an_employee(){
-
-};
-
-function update_an_employee_role(){
-
-};
+function update_an_employee_role() {
+    console.log("hi from update employee");
+}
