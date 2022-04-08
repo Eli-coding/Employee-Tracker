@@ -4,14 +4,14 @@ function menuQuestions() {
   inquirer
     .prompt([
       {
-        type: "expand",
+        type: "list",
         name: "startQuestion",
         message: "What would you like to do?",
         choices: [ "view_all_departments", "view_all_roles", "add_a_department","add a role","add_an_employee","update_an_employee_role"],
       },
     ])
-    .then((option) => {
-      switch (option) {
+    .then((choices) => {
+      switch (choices) {
         case "view_all_departments":
           view_all_departments();
           break;
