@@ -1,4 +1,22 @@
 const inquirer = require("inquirer");
+const mysql = require("mysql2");
+require("console.table");
+//const db = require("./db");
+
+const connection = mysql.createConnection({
+  host: "localHost",
+  user: "root",
+  database: "employee_tracker_db",
+  password: "100%Capable();",
+});
+
+connection.connect(function (error) {
+  if (error) {
+    throw error;
+  } else {
+    menuQuestions();
+  }
+});
 
 function menuQuestions() {
   inquirer
@@ -7,7 +25,15 @@ function menuQuestions() {
         type: "list",
         name: "startQuestion",
         message: "What would you like to do?",
-        choices: [ "view_all_departments", "view_all_roles", "add_a_department","add a role","add_an_employee","update_an_employee_role"],
+        choices: [
+          "view_all_departments",
+          "view_all_roles",
+          "view_all_employees",
+          "add_a_department",
+          "add a role",
+          "add_an_employee",
+          "update_an_employee_role",
+        ],
       },
     ])
     .then((results) => {
@@ -17,6 +43,9 @@ function menuQuestions() {
           break;
         case "view_all_roles":
           view_all_roles();
+          break;
+        case "view_all_employees":
+          view_all_employees();
           break;
         case "add_a_department":
           add_a_department();
@@ -34,33 +63,75 @@ function menuQuestions() {
           break;
 
         default:
+          //add something to quit programs 
           break;
       }
     });
 }
 
-menuQuestions();
-
 function view_all_departments() {
-  console.log("hi from all dept");
+  //console.log("hi from all dept");
+  connection.query("SELECT * FROM department", function (error, results) {
+    if (error) {
+      throw error;
+    } else {
+      console.table(results);
+      menuQuestions();
+    }
+  });
 }
 
 function view_all_roles() {
-  console.log("hi from all roles");
+  //console.log("hi from all roles");
+  connection.query("SELECT * FROM role", function (error, results) {
+    if (error) {
+      throw error;
+    } else {
+      console.table(results);
+      menuQuestions();
+    }
+  });
+}
+
+function view_all_employees() {
+  connection.query("SELECT * FROM employee", function (error, results) {
+    if (error) {
+      throw error;
+    } else {
+      console.table(results);
+      menuQuestions();
+    }
+  });
 }
 
 function add_a_department() {
-    console.log("hi from add dept");
+  //console.log("hi from add dept");
+inquirer.prompt(
+  {
+    type: "input",
+    message: "Enter the department: ",
+    name: "department"
+  }  
+).then( function(newDept){
+  connection.query(`INSERT INTO department (name) VALUES ('${newDept.department}')`, function(error){
+    if (error) {
+      throw error;
+    } else {
+      console.log("Succesfully added");
+      menuQuestions();
+    }
+  })
+})
 }
 
 function add_a_role() {
-    console.log("hi from add a role");
+  console.log("hi from add a role");
 }
 
 function add_an_employee() {
-    console.log("hi from add an employee");
+  console.log("hi from add an employee");
 }
 
 function update_an_employee_role() {
-    console.log("hi from update employee");
+  console.log("hi from update employee");
 }
