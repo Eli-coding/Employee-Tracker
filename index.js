@@ -63,14 +63,14 @@ function menuQuestions() {
           break;
 
         default:
-          //add something to quit programs 
+          //add something to quit program
           break;
       }
     });
 }
 
 function view_all_departments() {
-  //console.log("hi from all dept");
+
   connection.query("SELECT * FROM department", function (error, results) {
     if (error) {
       throw error;
@@ -82,7 +82,7 @@ function view_all_departments() {
 }
 
 function view_all_roles() {
-  //console.log("hi from all roles");
+  
   connection.query("SELECT * FROM role", function (error, results) {
     if (error) {
       throw error;
