@@ -30,7 +30,7 @@ function menuQuestions() {
           "view_all_roles",
           "view_all_employees",
           "add_a_department",
-          "add a role",
+          "add_a_role",
           "add_an_employee",
           "update_an_employee_role",
         ],
