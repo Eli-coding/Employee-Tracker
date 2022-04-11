@@ -70,7 +70,6 @@ function menuQuestions() {
 }
 
 function view_all_departments() {
-
   connection.query("SELECT * FROM department", function (error, results) {
     if (error) {
       throw error;
@@ -82,7 +81,6 @@ function view_all_departments() {
 }
 
 function view_all_roles() {
-  
   connection.query("SELECT * FROM role", function (error, results) {
     if (error) {
       throw error;
@@ -105,27 +103,63 @@ function view_all_employees() {
 }
 
 function add_a_department() {
-  //console.log("hi from add dept");
-inquirer.prompt(
-  {
-    type: "input",
-    message: "Enter the department: ",
-    name: "department"
-  }  
-).then( function(newDept){
-  connection.query(`INSERT INTO department (name) VALUES ('${newDept.department}')`, function(error){
-    if (error) {
-      throw error;
-    } else {
-      console.log("Succesfully added");
-      menuQuestions();
-    }
-  })
-})
+  inquirer
+    .prompt({
+      type: "input",
+      message: "Enter the department: ",
+      name: "department",
+    })
+    .then(function (newDept) {
+      connection.query(
+        `INSERT INTO department (name) VALUES ('${newDept.department}')`,
+        function (error) {
+          if (error) {
+            throw error;
+          } else {
+            console.log("Succesfully added");
+            menuQuestions();
+          }
+        }
+      );
+    });
 }
 
 function add_a_role() {
-  console.log("hi from add a role");
+  //console.log("hi from add a role");
+
+  inquirer
+  .prompt({
+    type: "input",
+    message: "Enter the  name of the role: ",
+    name: "roleName"
+
+  },
+  {
+    type: "input",
+    message: "Enter the salary: ",
+    name: "salary"
+  }, 
+  {
+    type: "input",
+    message: "Enter the department for the role: ",
+    name: "roleDept"
+  }
+  
+  )
+  .then(function (roleName,salary,roleDept) {
+    connection.query(
+      `INSERT INTO role (title, salary,department_id) VALUES ('${roleName.role}', '${salary.role}', '${roleDept.role}')`,
+      function (error) {
+        if (error) {
+          throw error;
+        } else {
+          console.log("Succesfully added");
+          menuQuestions();
+        }
+      }
+    );
+  });
+
 }
 
 function add_an_employee() {

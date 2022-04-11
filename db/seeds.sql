@@ -6,7 +6,7 @@ VALUES
 
 INSERT INTO role (title, salary, department_id) 
 VALUES
-("saleslead" ,120000, 1),
+("sales Lead" ,120000, 1),
 ("HR Associate", 120000, 2),
 ('CFO', 120000, 3);
 
