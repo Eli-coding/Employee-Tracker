@@ -193,7 +193,7 @@ function add_an_employee() {
     ])
     .then(function (results) {
       connection.query(
-        `INSERT INTO role SET ?`,
+        `INSERT INTO employee SET ?`,
         {
           first_name: results.firstName,
           last_name: results.lastName,
