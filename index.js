@@ -33,6 +33,7 @@ function menuQuestions() {
           "add_a_role",
           "add_an_employee",
           "update_an_employee_role",
+          "I am done for today."
         ],
       },
     ])
@@ -62,7 +63,7 @@ function menuQuestions() {
           update_an_employee_role();
           break;
 
-        default:
+        case "I am done for today.":
           quit();
           break;
       }
@@ -125,8 +126,6 @@ function add_a_department() {
 }
 
 function add_a_role() {
-
-
   inquirer
     .prompt([
       {
@@ -145,14 +144,14 @@ function add_a_role() {
         name: "roleDept",
       },
     ])
-    .then(function (roleName) {
+    .then(function (results) {
       connection.query(
         `INSERT INTO role SET ?`,
         {
-          id: roleName.id,
-          title: roleName.roleName,
-          salary: roleName.salary,
-          department_id: roleName.roleDept,
+          id: results.id,
+          title: results.roleName,
+          salary: results.salary,
+          department_id: results.roleDept,
         },
         function (error) {
           if (error) {
@@ -167,8 +166,50 @@ function add_a_role() {
 }
 
 function add_an_employee() {
-  console.log("hi from add an employee");
+
   //enter the employee’s first name, last name, role, and manager
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "Enter the first name of the employee: ",
+        name: "firstName",
+      },
+      {
+        type: "input",
+        message: "Enter the last name of the employee: ",
+        name: "lastName",
+      },
+      {
+        type: "input",
+        message: "Enter the role of the employee: ",
+        name: "roleID",
+      },
+      {
+        type: "input",
+        message: "Is this employee a manager?",
+        name: "managerID",
+      },
+    ])
+    .then(function (results) {
+      connection.query(
+        `INSERT INTO role SET ?`,
+        {
+          first_name: results.firstName,
+          last_name: results.lastName,
+          role_id: results.roleID,
+          manager_id: results.managerID,
+        },
+        function (error) {
+          if (error) {
+            throw error;
+          } else {
+            console.log("Succesfully added");
+            menuQuestions();
+          }
+        }
+      );
+    });
 }
 
 function update_an_employee_role() {
