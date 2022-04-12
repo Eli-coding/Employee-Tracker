@@ -63,7 +63,7 @@ function menuQuestions() {
           break;
 
         default:
-          //add something to quit program
+          quit();
           break;
       }
     });
@@ -125,47 +125,57 @@ function add_a_department() {
 }
 
 function add_a_role() {
-  //console.log("hi from add a role");
+
 
   inquirer
-  .prompt({
-    type: "input",
-    message: "Enter the  name of the role: ",
-    name: "roleName"
-
-  },
-  {
-    type: "input",
-    message: "Enter the salary: ",
-    name: "salary"
-  }, 
-  {
-    type: "input",
-    message: "Enter the department for the role: ",
-    name: "roleDept"
-  }
-  
-  )
-  .then(function (roleName,salary,roleDept) {
-    connection.query(
-      `INSERT INTO role (title, salary,department_id) VALUES ('${roleName.role}', '${salary.role}', '${roleDept.role}')`,
-      function (error) {
-        if (error) {
-          throw error;
-        } else {
-          console.log("Succesfully added");
-          menuQuestions();
+    .prompt([
+      {
+        type: "input",
+        message: "Enter the  name of the role: ",
+        name: "roleName",
+      },
+      {
+        type: "input",
+        message: "Enter the salary: ",
+        name: "salary",
+      },
+      {
+        type: "input",
+        message: "Enter the department for the role: ",
+        name: "roleDept",
+      },
+    ])
+    .then(function (roleName) {
+      connection.query(
+        `INSERT INTO role SET ?`,
+        {
+          id: roleName.id,
+          title: roleName.roleName,
+          salary: roleName.salary,
+          department_id: roleName.roleDept,
+        },
+        function (error) {
+          if (error) {
+            throw error;
+          } else {
+            console.log("Succesfully added");
+            menuQuestions();
+          }
         }
-      }
-    );
-  });
-
+      );
+    });
 }
 
 function add_an_employee() {
   console.log("hi from add an employee");
+  //enter the employee’s first name, last name, role, and manager
 }
 
 function update_an_employee_role() {
   console.log("hi from update employee");
+}
+
+function quit() {
+  console.log("Good bye!");
+  process.exit();
 }
