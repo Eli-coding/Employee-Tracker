@@ -33,7 +33,7 @@ function menuQuestions() {
           "add_a_role",
           "add_an_employee",
           "update_an_employee_role",
-          "I am done for today."
+          "I am done for today.",
         ],
       },
     ])
@@ -166,7 +166,6 @@ function add_a_role() {
 }
 
 function add_an_employee() {
-
   //enter the employee’s first name, last name, role, and manager
   inquirer
     .prompt([
@@ -213,7 +212,46 @@ function add_an_employee() {
 }
 
 function update_an_employee_role() {
-  console.log("hi from update employee");
+  
+const employeeList = connection.query( "SELECT * FROM employee", function (error, results) {
+  if (error) {
+    throw error;
+  } else {
+    console.table(results);
+  
+  }
+});
+
+  inquirer.prompt([
+    {
+  type:"list",
+  name:"selectedEmp",
+  message:"Which employee are you updating their role?",
+  choices : employeeList
+    }
+  ]). then (function (results){
+    inquirer.prompt([
+      {
+       type: "input",
+         message: "Enter the role ID: ",
+         name: "roleID",
+     },
+     {
+         type: "input",
+         message: "Enter the new role of the employee: ",
+        name: "newRole",
+     }
+    ])
+    connection.query(
+      `UPDATE employee
+      SET ? ,
+      WHERE ?`, 
+      role_id = results.roleID,
+      title = results.newRole,
+      employeeList = results.selectedEmp
+
+    )
+  })
 }
 
 function quit() {
