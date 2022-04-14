@@ -245,18 +245,21 @@ async function update_an_employee_role() {
         choices: employeeList,
       },
     ])
-    .then(function (results) {
+    .then( (response) =>  {
+      let employee_id = response.selectedEmp;
+      let role = view_all_roles();
+      const roleList = role.map(({ id, title }) =>({
+        name: title,
+        value: id,
+      })) 
       inquirer.prompt([
         {
-          type: "input",
-          message: "Enter the role ID: ",
+          type: "list",
+          message: "What role you do you want to assigned to the selected employee? ",
           name: "roleID",
+          choices: roleList
         },
-        {
-          type: "input",
-          message: "Enter the new role of the employee: ",
-          name: "newRole",
-        },
+     
       ]);
       connection.query(
         `UPDATE employee
@@ -266,6 +269,8 @@ async function update_an_employee_role() {
         (title = results.newRole),
         (employeeList = results.selectedE)
       );
+
+      console.log(results);
     });
 }
 
