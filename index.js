@@ -248,7 +248,7 @@ const employeeList = connection.query( "SELECT * FROM employee", function (error
       WHERE ?`, 
       role_id = results.roleID,
       title = results.newRole,
-      employeeList = results.selectedEmp
+      employeeList = results.selectedE
 
     )
   })
