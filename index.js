@@ -211,58 +211,63 @@ function add_an_employee() {
     });
 }
 
-function getEmployeeList()
-{
-    return new Promise(function(resolve, reject) {
-      connection.query( "SELECT * FROM employee", function (error, results) {
-        if (error) {
-          return reject(err);
-        } else {
-          console.table(results);
-          resolve(results);
-        }
-      });
+function getEmployeeList() {
+  return new Promise(function (resolve, reject) {
+    connection.query("SELECT * FROM employee", function (error, results) {
+      if (error) {
+        return reject(err);
+      } else {
+        console.table(results);
+        resolve(result);
+      }
+    });
+  });
+}
+
+async function update_an_employee_role() {
+
+  let employee = rows;
+  const employeeList = employee.map(({ id, first_name, last_name }) => ({
+    name: `${first_name} ${last_name}`,
+    value: id
+  }));
+
+  await getEmployeeList();
+
+  inquirer
+    .prompt([
+      {
+        type: "list",
+        name: "selectedEmp",
+        message: "Which employee are you updating their role?",
+        choices: employeeList,
+      },
+    ])
+    .then(function (results) {
+      inquirer.prompt([
+        {
+          type: "input",
+          message: "Enter the role ID: ",
+          name: "roleID",
+        },
+        {
+          type: "input",
+          message: "Enter the new role of the employee: ",
+          name: "newRole",
+        },
+      ]);
+      connection.query(
+        `UPDATE employee
+        SET ? ,
+        WHERE ?`,
+        (role_id = results.roleID),
+        (title = results.newRole),
+        (employeeList = results.selectedE)
+      );
     });
 }
 
-
-function update_an_employee_role() {
-  
-const employeeList = await getEmployeeList();
-
-  inquirer.prompt([
-      {
-    type:"list",
-    name:"selectedEmp",
-    message:"Which employee are you updating their role?",
-    choices : employeeList
-      }
-        ]). then (function (results){
-//      inquirer.prompt([
-//        {
-//         type: "input",
-//           message: "Enter the role ID: ",
-//           name: "roleID",
-//       },
-//       {
-//           type: "input",
-//           message: "Enter the new role of the employee: ",     
-//           name: "newRole",
-//       }
-//      ])
-//      connection.query(
-//        `UPDATE employee
-//        SET ? ,
-//        WHERE ?`, 
-//        role_id = results.roleID,
-//        title = results.newRole,
-//        employeeList = results.selectedE
-
-//      )
-//  })
+function quit() {
+  console.log("Good bye!");
+  process.exit();
 }
-
-// function quit() {
-//   console.log("Good bye!");
-//   process.exit();
-
