@@ -217,8 +217,8 @@ function getEmployeeList() {
       if (error) {
         return reject(err);
       } else {
-        console.table(results);
-        resolve(result);
+        
+        resolve(results);
       }
     });
   });
@@ -226,13 +226,15 @@ function getEmployeeList() {
 
 async function update_an_employee_role() {
 
-  let employee = rows;
+  let employee = await getEmployeeList();
+
+ 
   const employeeList = employee.map(({ id, first_name, last_name }) => ({
     name: `${first_name} ${last_name}`,
     value: id
   }));
 
-  await getEmployeeList();
+  
 
   inquirer
     .prompt([
