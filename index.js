@@ -194,12 +194,12 @@ function add_an_employee() {
       },
       {
         type: "input",
-        message: "Enter the role of the employee: ",
+        message: "Enter the role id of the employee: ",
         name: "roleID",
       },
       {
         type: "input",
-        message: "Is this employee a manager?",
+        message: "Enter the manager id of this employee: ",
         name: "managerID",
       },
     ])
