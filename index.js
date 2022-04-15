@@ -2,7 +2,7 @@ const inquirer = require("inquirer");
 const mysql = require("mysql2");
 require("console.table");
 
-
+//connect to mysql
 const connection = mysql.createConnection({
   host: "localHost",
   user: "root",
@@ -10,6 +10,7 @@ const connection = mysql.createConnection({
   password: "100%Capable();",
 });
 
+//calls menuQuestions function
 connection.connect(function (error) {
   if (error) {
     throw error;
@@ -18,6 +19,7 @@ connection.connect(function (error) {
   }
 });
 
+//menu questions
 function menuQuestions() {
   inquirer
     .prompt([
@@ -36,7 +38,7 @@ function menuQuestions() {
           "I am done for today.",
         ],
       },
-    ])
+    ])//switch to call the function depending on user input
     .then((results) => {
       switch (results.startQuestion) {
         case "view_all_departments":
@@ -70,6 +72,7 @@ function menuQuestions() {
     });
 }
 
+//view all departments query
 function view_all_departments() {
   connection.query("SELECT * FROM department", function (error, results) {
     if (error) {
@@ -81,6 +84,7 @@ function view_all_departments() {
   });
 }
 
+//view all roles query 
 function view_all_roles() {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM role", function (error, results) {
@@ -97,7 +101,8 @@ function view_all_roles() {
     });
   });
 }
-
+ 
+//view all employees query
 function view_all_employees() {
   connection.query("SELECT * FROM employee", function (error, results) {
     if (error) {
@@ -109,6 +114,7 @@ function view_all_employees() {
   });
 }
 
+//add a department query
 function add_a_department() {
   inquirer
     .prompt({
@@ -130,7 +136,8 @@ function add_a_department() {
       );
     });
 }
-
+ 
+// inquirer user and then adds a role to database 
 function add_a_role() {
   inquirer
     .prompt([
@@ -170,7 +177,7 @@ function add_a_role() {
       );
     });
 }
-
+//inquirer user and then adds an employee to database 
 function add_an_employee() {
   
   inquirer
@@ -216,7 +223,8 @@ function add_an_employee() {
       );
     });
 }
-
+ 
+// gets the list of employees to update employee's role
 function getEmployeeList() {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM employee", function (error, results) {
@@ -229,6 +237,7 @@ function getEmployeeList() {
   });
 }
 
+// gets the list of roles to update employee's role
 function getRoleList() {
   return new Promise(function (resolve, reject) {
     connection.query("SELECT * FROM role", function (error, results) {
@@ -241,7 +250,10 @@ function getRoleList() {
   });
 }
 
+//where the employee's role is updated
 async function update_an_employee_role() {
+
+  //how it got the employee list for the prompts
   let employee = await getEmployeeList();
 
   const employeeList = employee.map(({ id, first_name, last_name }) => ({
@@ -259,7 +271,7 @@ async function update_an_employee_role() {
       },
     ])
     .then(async (response) => {
-      
+      //how it got the role list for the prompts
      let role = await getRoleList();
         
        const roleList = role.map(({ id, title }) =>({
@@ -276,6 +288,7 @@ async function update_an_employee_role() {
         },
       ]).then((results) => {
         console.log(results)
+        //query to update employee's role
         connection.query(
             `UPDATE employee SET  role_id = ?  WHERE  id = ?`,
             [results.roleID, response.selectedEmp],
