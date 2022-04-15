@@ -82,13 +82,19 @@ function view_all_departments() {
 }
 
 function view_all_roles() {
-  connection.query("SELECT * FROM role", function (error, results) {
-    if (error) {
-      throw error;
-    } else {
-      console.table(results);
-      menuQuestions();
-    }
+  return new Promise(function (resolve, reject) {
+    connection.query("SELECT * FROM role", function (error, results) {
+      if (error) {
+      
+          return reject(err);
+         
+      } else {
+       console.table(results);
+        
+       menuQuestions();
+        return resolve(results);
+      }
+    });
   });
 }
 
@@ -217,7 +223,18 @@ function getEmployeeList() {
       if (error) {
         return reject(err);
       } else {
-        
+        resolve(results);
+      }
+    });
+  });
+}
+
+function getRoleList() {
+  return new Promise(function (resolve, reject) {
+    connection.query("SELECT * FROM role", function (error, results) {
+      if (error) {
+        return reject(err);
+      } else {
         resolve(results);
       }
     });
@@ -225,16 +242,12 @@ function getEmployeeList() {
 }
 
 async function update_an_employee_role() {
-
   let employee = await getEmployeeList();
 
- 
   const employeeList = employee.map(({ id, first_name, last_name }) => ({
     name: `${first_name} ${last_name}`,
-    value: id
+    value: id,
   }));
-
-  
 
   inquirer
     .prompt([
@@ -245,36 +258,49 @@ async function update_an_employee_role() {
         choices: employeeList,
       },
     ])
-    .then( (response) =>  {
-      let employee_id = response.selectedEmp;
-      let role = view_all_roles();
-      const roleList = role.map(({ id, title }) =>({
-        name: title,
-        value: id,
-      })) 
+    .then(async (response) => {
+      //let employee_id = response.selectedEmp;
+     let role = await getRoleList();
+        
+       const roleList = role.map(({ id, title }) =>({
+           name: title,
+         value: id,
+      }))
       inquirer.prompt([
         {
           type: "list",
-          message: "What role you do you want to assigned to the selected employee? ",
+          message:
+            "What role you do you want to assigned to the selected employee? ",
           name: "roleID",
           choices: roleList
         },
-     
-      ]);
-      connection.query(
-        `UPDATE employee
-        SET ? ,
-        WHERE ?`,
-        (role_id = results.roleID),
-        (title = results.newRole),
-        (employeeList = results.selectedE)
-      );
+      ]).then((results) => {
+        console.log(results)
+        connection.query(
+            `UPDATE employee
+            SET  role = ? , 
+            WHERE  id = ?`,
+            ['roleList', 'employeeList' ],
+          function (error, results) {
+            if (error) {
+              throw error;
+            } else {
+              resolve(results);
+            }
+            
+          
+      });
+      // 
+      // connection.query('UPDATE role  SET foo = ?, bar = ?, baz = ? WHERE id = ?', ['a', 'b', 'c', userId], function (error, results, fields) {
+      //   if (error) throw error;
+    
+      // });
 
-      console.log(results);
-    });
+      
+  
 }
 
-function quit() {
+function quit(){
   console.log("Good bye!");
   process.exit();
-}
+};
