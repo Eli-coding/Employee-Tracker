@@ -1,7 +1,7 @@
 const inquirer = require("inquirer");
 const mysql = require("mysql2");
 require("console.table");
-//const db = require("./db");
+
 
 const connection = mysql.createConnection({
   host: "localHost",
@@ -172,7 +172,7 @@ function add_a_role() {
 }
 
 function add_an_employee() {
-  //enter the employee’s first name, last name, role, and manager
+  
   inquirer
     .prompt([
       {
@@ -259,7 +259,7 @@ async function update_an_employee_role() {
       },
     ])
     .then(async (response) => {
-      //let employee_id = response.selectedEmp;
+      
      let role = await getRoleList();
         
        const roleList = role.map(({ id, title }) =>({
@@ -277,24 +277,23 @@ async function update_an_employee_role() {
       ]).then((results) => {
         console.log(results)
         connection.query(
-            `UPDATE employee
-            SET  role = ? , 
-            WHERE  id = ?`,
-            ['roleList', 'employeeList' ],
+            `UPDATE employee SET  role_id = ?  WHERE  id = ?`,
+            [results.roleID, response.selectedEmp],
           function (error, results) {
             if (error) {
               throw error;
             } else {
-              resolve(results);
+              console.log("might be succesfully updated");
+              menuQuestions();
+    
             }
-            
+    
+          });
+      
+        });        
           
       });
-      // 
-      // connection.query('UPDATE role  SET foo = ?, bar = ?, baz = ? WHERE id = ?', ['a', 'b', 'c', userId], function (error, results, fields) {
-      //   if (error) throw error;
-    
-      // });
+      
 
       
   
