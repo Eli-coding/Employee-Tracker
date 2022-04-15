@@ -292,11 +292,11 @@ async function update_an_employee_role() {
         connection.query(
             `UPDATE employee SET  role_id = ?  WHERE  id = ?`,
             [results.roleID, response.selectedEmp],
-          function (error, results) {
+          function (error) {
             if (error) {
               throw error;
             } else {
-              console.log("might be succesfully updated");
+              console.log("Succesfully updated");
               menuQuestions();
     
             }
